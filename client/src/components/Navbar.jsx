@@ -4,7 +4,9 @@ const Navbar = () => {
   return (
     <div className="navbar bg-base-300">
       <div className="flex-1">
-        <a className="btn btn-ghost text-xl">Imdb</a>
+        <p className="btn btn-ghost text-xl">
+          <Link to={"/"}>Imdb</Link>
+        </p>
       </div>
       {/* Trial */}
       <div className="flex gap-5 px-4">
@@ -12,7 +14,7 @@ const Navbar = () => {
           <Link to={"/"}>Home</Link>
         </p>
         <p>
-          <Link to={"/add_movie"}>Add Movie</Link>
+          <Link to={"/add_movie"}>Add-Movie</Link>
         </p>
       </div>
 
