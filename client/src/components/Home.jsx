@@ -2,12 +2,14 @@ import { useEffect, useState } from "react";
 import { MOVIE_LIST } from "../utils/constants";
 import MovieCard from "./MovieCard";
 import ShimmerMovieCard from "./ShimmerUi/ShimmerMovieCard";
+import { GET_ALL_MOVIE } from "../utils/endpoint";
 const Home = () => {
   const [movieList, setMovieList] = useState(null);
 
   const fetchMovieList = async () => {
-    const data = await Promise.resolve("resolved");
-    setMovieList(MOVIE_LIST);
+    const data = await fetch(GET_ALL_MOVIE);
+    const dataJson = await data.json();
+    setMovieList(dataJson?.data);
   };
   useEffect(() => {
     fetchMovieList();
@@ -17,8 +19,8 @@ const Home = () => {
     <ShimmerMovieCard />
   ) : (
     <div className="flex flex-wrap justify-between gap-y-12 p-10">
-      {movieList.map((val) => {
-        return <MovieCard movieData={val} />;
+      {movieList.map((val, index) => {
+        return <MovieCard key={index} movieData={val} />;
       })}
     </div>
   );
