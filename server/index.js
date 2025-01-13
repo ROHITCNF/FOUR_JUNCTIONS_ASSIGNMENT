@@ -21,6 +21,7 @@ const movieRouter = require("./routes/movie");
 app.use("/", userRouter);
 app.use("/", movieRouter);
 
+//DB connection function
 connectToDb()
   .then(() => {
     console.log("DB Connection SuccessFul");
