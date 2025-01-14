@@ -1,10 +1,28 @@
-import { Link } from "react-router-dom";
+import { useEffect, useState } from "react";
+import { useParams } from "react-router-dom";
+import { GET_MOVIE } from "../utils/endpoint";
 
-const MovieCard = (props) => {
-  const {_id,name, posterUrl, generes, rating , year} = props?.movieData;
+const MovieDescription = (props) => {
+  const [movieData , setMovieData] = useState(null);
+
+  const params = useParams();
+  const { movieId } = params;
+
+  const fetchMovieData = async () => {
+    const apiData = await fetch(`${GET_MOVIE}${movieId}`);
+    const apiDataJson = await apiData.json();
+    setMovieData(apiDataJson?.data);
+  };
+  useEffect(() => {
+    fetchMovieData();
+  },[]);
+
+  if(!movieData){
+    return <h1>Loading........</h1>
+  }
+  const {name , posterUrl , year , rating , generes} = movieData;
   return (
-    <Link to={`/movie/details/${_id}`}>
-     <div className="card bg-base-100 w-96 h-[40rem] shadow-xl cursor-pointer">
+    <div className="card bg-base-100 w-96 h-[40rem] shadow-xl cursor-pointer">
       <figure className="h-[30rem] w-full overflow-hidden">
         <img
           src={posterUrl}
@@ -34,8 +52,7 @@ const MovieCard = (props) => {
         </div>
       </div>
     </div>
-    </Link>
   );
 };
 
-export default MovieCard;
+export default MovieDescription

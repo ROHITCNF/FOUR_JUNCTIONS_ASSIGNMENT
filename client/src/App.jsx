@@ -6,6 +6,7 @@ import Home from "./components/Home";
 import AddMovie from "./components/AddMovie";
 import ErrorRoute from "./components/ErrorRoute";
 import { createBrowserRouter, RouterProvider, Outlet } from "react-router-dom";
+import MovieDescription from "./components/MovieDescription";
 
 const AppLayout = () => {
   return (
@@ -29,6 +30,10 @@ const appRouter = createBrowserRouter([
         path: "/add_movie",
         element: <AddMovie />,
       },
+      {
+        path :"/movie/details/:movieId",
+        element : <MovieDescription/>
+      }
     ],
     errorElement: <ErrorRoute />,
   },

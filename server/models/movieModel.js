@@ -4,10 +4,12 @@ const mongoose = require("mongoose");
 const movieSchema = new mongoose.Schema({
   name: { type: String, required: true },
   posterUrl: { type: String },
-  producer: { type: String },
   rating: { type: Number },
-  generes: { type: [String], required: true },
-  cast: { type: [String], required: true },
+  generes: { type: [String],default:["Action","Adventure","Drama"]},
+  year : {type : Number , required : true},
+
+  producer: { type: mongoose.Schema.Types.ObjectId , ref : 'Movie User' , required : true},
+  cast: [{ type : mongoose.Schema.Types.ObjectId,ref:"Movie User", required: true }],
 });
 
 // create the model with your  schema
