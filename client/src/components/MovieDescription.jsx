@@ -3,7 +3,7 @@ import { useParams } from "react-router-dom";
 import { GET_MOVIE } from "../utils/endpoint";
 
 const MovieDescription = (props) => {
-  const [movieData , setMovieData] = useState(null);
+  const [movieData, setMovieData] = useState(null);
 
   const params = useParams();
   const { movieId } = params;
@@ -15,14 +15,14 @@ const MovieDescription = (props) => {
   };
   useEffect(() => {
     fetchMovieData();
-  },[]);
+  }, []);
 
-  if(!movieData){
-    return <h1>Loading........</h1>
+  if (!movieData) {
+    return <h1>Loading........</h1>;
   }
-  const {name , posterUrl , year , rating , generes} = movieData;
+  const { name, posterUrl, year, rating, generes  , producer , cast} = movieData;
   return (
-    <div className="card bg-base-100 w-96 h-[40rem] shadow-xl cursor-pointer">
+    <div className="card bg-base-100 w-96  shadow-xl cursor-pointer">
       <figure className="h-[30rem] w-full overflow-hidden">
         <img
           src={posterUrl}
@@ -31,7 +31,7 @@ const MovieDescription = (props) => {
         />
       </figure>
       <div className="card-body">
-        <h2 className="card-title">{name}</h2>
+        <h2 className="card-title">{name.toUpperCase()}</h2>
         {/* genre type */}
         <div className="card-actions justify-start">
           {generes?.map((val, index) => (
@@ -50,9 +50,21 @@ const MovieDescription = (props) => {
           {rating ?? 0.0}
           <div>{year}</div>
         </div>
+        {/* Producer */}
+        <p>
+            Producer : <span  className="cursor-pointer bg-red-800">{producer?.name.toUpperCase()}_{producer?.gender}_{producer?.dob}</span>
+        </p>
+        {/* CASTs */}
+        <p>
+            Cast :  <div>
+            {cast.map((val)=>{
+             return  <p className="bg-red-800 cursor-pointer"key={val._id}>{val.name.toUpperCase()}___{val?.gender}___{val?.dob}</p>
+            })}
+            </div>
+        </p>
       </div>
     </div>
   );
 };
 
-export default MovieDescription
+export default MovieDescription;

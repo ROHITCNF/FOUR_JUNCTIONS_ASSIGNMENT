@@ -1,4 +1,5 @@
 const express = require("express");
+const mongoose = require("mongoose");
 const movieRouter = express.Router();
 const movieModel = require("../models/movieModel");
 const { sendResponseJson } = require("../utils/response");
@@ -23,8 +24,23 @@ movieRouter.get("/movie/getMovie/:id" , async (req , res)=>{
     sendResponseJson(res, 401, `Error : ${error}`);
   }
 })
-movieRouter.patch("/movie/editMovie/:id", (req, res) => {
+movieRouter.patch("/movie/editMovie/:id", async(req, res) => {
   // edit the movie with the id
+  try {
+    const id = req?.params?.id;
+    const movie = await movieModel.findById(id);
+    if (!movie) {
+      sendResponseJson(res, 401, 'Movie Details Not Present in DB');
+    }
+    const payload = req?.body;
+    //now we can update 
+    const updatedData = await movieModel.findOneAndUpdate({_id : id} ,payload );
+    sendResponseJson(res, 200, 'Successfulle updated the data ');
+  } catch (error) {
+    console.log(error);
+    sendResponseJson(res, 401, `Error : ${error}`);
+  }
+
 });
 movieRouter.post("/movie/addMovie", async (req, res) => {
   //  add new movie
@@ -53,7 +69,7 @@ movieRouter.post("/movie/addMovie", async (req, res) => {
     }
     // Now we are safe to add the Movie Details in DB
     const movie = new movieModel({
-      name: name,
+      name: name.toLowerCase(),
       posterUrl: posterUrl,
       rating: rating,
       cast: actorsInDb.map((actor)=>actor._id),

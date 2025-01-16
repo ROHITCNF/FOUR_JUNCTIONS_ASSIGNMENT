@@ -2,7 +2,7 @@ const mongoose = require("mongoose");
 
 //create the schema
 const movieSchema = new mongoose.Schema({
-  name: { type: String, required: true },
+  name: { type: String, required: true , unique :true},
   posterUrl: { type: String },
   rating: { type: Number },
   generes: { type: [String],default:["Action","Adventure","Drama"]},

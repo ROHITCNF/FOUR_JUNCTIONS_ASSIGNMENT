@@ -3,7 +3,16 @@ const userRouter = express.Router();
 const userModel = require('../models/userModel');
 const { sendResponseJson } = require("../utils/response");
 
-userRouter.get("/user/getAllActors", (req, res) => {});
+userRouter.get("/user/getAllActors", async (req, res) => {
+    try {
+        const allActors = await userModel.find({type : "CAST"});
+        sendResponseJson(res , 200 , 'All Casts Fetched Successfully' , allActors)
+    } catch (error) {
+        console.log(error);
+        sendResponseJson(res , 400 , error);
+    }
+
+});
 userRouter.post("/user/addActor", async(req, res) => {
    try {
      const payload = req?.body;
@@ -26,7 +35,15 @@ userRouter.post("/user/addActor", async(req, res) => {
 
 });
 
-userRouter.get("/user/getAllProducers", (req, res) => {});
+userRouter.get("/user/getAllProducers", async(req, res) => {
+    try {
+        const allProducers = await userModel.find({type : "PRODUCER"});
+        sendResponseJson(res , 200 , 'All PRODUCERS Fetched Successfully' , allProducers)
+    } catch (error) {
+        console.log(error);
+        sendResponseJson(res , 400 , error);
+    }
+});
 userRouter.post("/user/addProducer", async(req, res) => {
     try {
         const payload = req?.body;
